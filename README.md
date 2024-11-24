@@ -40,3 +40,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 >>>>>>> 7350f5e (Initial commit)
 # vending-machine-frontend2
 # vending-machine-frontend2
+# vending-machine-frontend2

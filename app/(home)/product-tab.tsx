@@ -97,7 +97,7 @@ const TabProduct = () => {
   // Render products
   const renderProducts = () => {
     return (
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
         {filteredProducts.map((item, index) => (
           <Product
             _id={item._id}
@@ -131,8 +131,8 @@ const TabProduct = () => {
       </div>
 
       {/* Product container with scroll */}
-      <div className="h-[500px] overflow-y-auto">{renderProducts()}</div>
-    </div>
+      <div className="h-[500px] overflow-y-auto scrollbar-hide">{renderProducts()}</div>
+    </div >
   );
 };
 

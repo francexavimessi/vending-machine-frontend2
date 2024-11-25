@@ -35,7 +35,7 @@ export default function Product({ _id, title, img, price, stock }: ProductProps)
 
     return (
         <div
-            className="p-4 m-4" // Add padding around the card
+            className="p4 m-4" // Add padding around the card
         >
             <Card
                 shadow="md"
@@ -57,14 +57,16 @@ export default function Product({ _id, title, img, price, stock }: ProductProps)
                         height={150}
                         alt={title}
                         className="object-cover w-full h-full rounded-lg"
-                        src={Backend_URL + img}
+                        src={Backend_URL + "images/" + img}
                     />
                 </CardBody>
                 <CardFooter className="text-small flex justify-between items-end pt-2 pb-2 px-2 bg-white rounded-b-lg shadow-md">
                     {/* Name and Price Section */}
                     <div className="flex flex-col items-center flex-grow">
                         <b className="text-sm font-semibold truncate text-center mb-1">{title}</b>
-                        <p className="text-xs text-gray-500 text-center mb-2">${price}</p>
+                        <p className="text-xs text-gray-800 text-center mb-2 bg-yellow-200 px-2 py-1 rounded-md">
+                            {price} THB
+                        </p>
                         <p
                             className={`text-xs ${stock > 0 ? "text-green-500" : "text-red-500"
                                 } self-end`}

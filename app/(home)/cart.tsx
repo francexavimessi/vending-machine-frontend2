@@ -24,7 +24,7 @@ export default function Cart() {
     const showChangeModal = useModalStore((state) => state.showChangeModal);
     const setChangeShowModal = useModalStore((state) => state.setChangeShowModal);
     // State for controlling the PaymentModal
-    
+
 
     // State to track the screen size
     const [isLandscape, setIsLandscape] = useState(true);
@@ -63,11 +63,11 @@ export default function Cart() {
 
     return (
         <div
-            className={`${isLandscape ? "w-full h-[70vh]" : "w-full lg:w-[400px] h-[40vh]"
+            className={`${isLandscape ? "w-full h-[40vh]" : "w-full lg:w-[400px] h-[40vh]"
                 } bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between`} // flex-col with justify-between for buttons to stick to bottom
         >
-            <div className="flex-1 overflow-y-auto"> {/* This will allow scrolling for cart items */}
-                <h2 className="text-xl font-semibold mb-4">Your Cart</h2>
+            <h2 className="text-xl font-semibold mb-4">Your Cart</h2>
+            <div className="flex-1 overflow-y-auto scrollbar-hide"> {/* This will allow scrolling for cart items */}
                 {cartItems.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
                         {cartItems.map((item) => (
@@ -78,7 +78,7 @@ export default function Cart() {
                                 <div>
                                     <p className="font-medium">{item.name}</p>
                                     <p className="text-sm text-gray-500">
-                                        ${item.price.toFixed(2)}
+                                        {item.price.toFixed(2)} THB
                                     </p>
                                 </div>
                                 <div className="flex gap-2">
@@ -106,7 +106,7 @@ export default function Cart() {
 
             <div className="mt-4">
                 <p className="text-lg font-semibold">
-                    Total: ${total.toFixed(2)}
+                    Total: {total.toFixed(2)} THB
                 </p>
 
                 {/* Checkout and Cancel buttons placed at the bottom */}

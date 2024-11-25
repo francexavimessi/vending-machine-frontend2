@@ -19,9 +19,9 @@ const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
             <div className="modal-wrapper">
                 <div className="modal">
                     <div className="modal-header">
-                        {/* <a href="#" onClick={handleCloseClick} className="close-button">
-                            ×
-                        </a> */}
+                        <a href="#" onClick={handleCloseClick} className="close-button">
+
+                        </a>
                     </div>
                     {title && <h1 className="modal-title">{title}</h1>}
                     <div className="modal-body">{children}</div>

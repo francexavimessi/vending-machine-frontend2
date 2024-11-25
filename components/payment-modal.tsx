@@ -7,9 +7,21 @@ import { axiosAuth } from "@/lib/axios";
 import Swal from "sweetalert2"; // Import SweetAlert2
 import { useModalStore } from "@/stores/use-modal-store";
 import { useTransactionStore } from "@/stores/use-transaction-store";
+import { AxiosError } from "axios";
+interface ErrorResponse {
+    message?: string;
+    // Add any other fields you expect in the error response, e.g., status code, etc.
+}
+
 interface PaymentModalProps {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+}
+
+interface PaymentData {
+    products: { productId: string; quantity: number }[];
+    totalPaid: number;
+    denominations: { value: number; count: number }[];
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, setIsOpen }) => {
@@ -18,82 +30,65 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, setIsOpen }) => {
     const addMoney = useMoneyStore((state) => state.addMoney);
     const total = useMoneyStore((state) => state.total);
     const resetMoney = useMoneyStore((state) => state.resetMoney);
+    const denominations = useMoneyStore((state) => state.denominations);
 
     const totalPrice = useCartStore((state) =>
         state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
     );
     const cart = useCartStore((state) => state.cart);
 
-
     const setChangeShowModal = useModalStore((state) => state.setChangeShowModal);
     const setShowModal = useModalStore((state) => state.setShowModal);
 
     const setTransaction = useTransactionStore((state) => state.setTransaction);
 
-
     const handleSelection = (type: string, value: number) => {
         console.log(`${type} selected: ${value} THB`);
-
-        // Add the selected denomination to the store
         addMoney(value, 1); // Adds 1 unit of the selected denomination
     };
 
     const handlePay = async () => {
-
-
-        const paymentData = {
+        const paymentData: PaymentData = {
             products: cart.map((item) => ({
                 productId: item.id,
                 quantity: item.quantity,
             })),
-            totalPaid: total, // `total` from the money store
+            totalPaid: total,
+            denominations,
         };
 
-
         console.log("Payment data:", paymentData);
+
         try {
             const res = await purchase(axiosAuth, paymentData);
 
-            console.log(res);
-            console.log("res.status", res.status == 201);
-
-            if (res.status == 201) {
-                // Swal.fire({
-                //     title: res.data.message,
-                //     text: "You have not added enough money to complete this purchase.",
-                //     icon: "warning",
-                //     confirmButtonText: "OK",
-                // }).then(() => {
-                //     // closeModal(); // Optionally close the modal after the alert
-                // });
-                closeModal()
-                setChangeShowModal(true)
+            if (res.status === 201) {
+                closeModal();
+                setChangeShowModal(true);
                 setTransaction(res.data);
             }
-        } catch (error: any) {
-            console.log(error.response);
-
-
-            Swal.fire({
-                title: error.response.data.message,
-                // text: "You have not added enough money to complete this purchase.",
-                icon: "warning",
-                confirmButtonText: "OK",
-            }).then(() => {
-                // closeModal(); // Optionally close the modal after the alert
-            });
-            // }
+        } catch (error: unknown) {
+            if (isAxiosError(error)) {
+                Swal.fire({
+                    title: error.response?.data?.message || "Error",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                });
+            } else {
+                console.error("An unexpected error occurred:", error);
+            }
         }
-        // Optionally, reset the money and close the modal
-        // resetMoney();
-        // closeModal();
-        // }
     };
 
     const handleCancel = () => {
         console.log("Payment canceled");
-        resetMoney(); // Clear the money store (if needed)
+        resetMoney(); // Clear the money store
         closeModal(); // Close the modal
+        setIsOpen(false);
+    };
+
+    const isAxiosError = (error: unknown): error is AxiosError<ErrorResponse> => {
+        return (error as AxiosError).isAxiosError !== undefined;
     };
 
     return (
@@ -134,8 +129,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, setIsOpen }) => {
                         </div>
 
                         {/* Total Amount */}
-                        <div className="flex justify-between gap-2 ">
-
+                        <div className="flex justify-between gap-2">
                             <div className="mt-6 text-center">
                                 <h4 className="text-lg font-semibold text-gray-700">
                                     Total Price: <span className="text-green-700">{totalPrice} THB</span>

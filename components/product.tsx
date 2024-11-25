@@ -35,7 +35,7 @@ export default function Product({ _id, title, img, price, stock }: ProductProps)
 
     return (
         <div
-            className="p4 m-4" // Add padding around the card
+            className="p4 m-4 " // Add padding around the card
         >
             <Card
                 shadow="md"

@@ -4,6 +4,10 @@
 // import { ProductsTable } from './products-table';
 // import { getProducts } from '@/lib/db';
 
+import TabAdmin from "./admin-tab-manage";
+
+// import TabAdmin from "./product-table";
+
 export default async function ProductsPage(
     //   props: {
     //     searchParams: Promise<{ q: string; offset: string }>;
@@ -18,39 +22,26 @@ export default async function ProductsPage(
     //   );
 
     return (
-        <div>Hello</div>
-        // <Tabs defaultValue="all">
-        //   <div className="flex items-center">
-        //     <TabsList>
-        //       <TabsTrigger value="all">All</TabsTrigger>
-        //       <TabsTrigger value="active">Active</TabsTrigger>
-        //       <TabsTrigger value="draft">Draft</TabsTrigger>
-        //       <TabsTrigger value="archived" className="hidden sm:flex">
-        //         Archived
-        //       </TabsTrigger>
-        //     </TabsList>
-        //     <div className="ml-auto flex items-center gap-2">
-        //       <Button size="sm" variant="outline" className="h-8 gap-1">
-        //         <File className="h-3.5 w-3.5" />
-        //         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-        //           Export
-        //         </span>
-        //       </Button>
-        //       <Button size="sm" className="h-8 gap-1">
-        //         <PlusCircle className="h-3.5 w-3.5" />
-        //         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-        //           Add Product
-        //         </span>
-        //       </Button>
-        //     </div>
-        //   </div>
-        //   <TabsContent value="all">
-        //     <ProductsTable
-        //       products={products}
-        //       offset={newOffset ?? 0}
-        //       totalProducts={totalProducts}
-        //     />
-        //   </TabsContent>
-        // </Tabs>
+        <div className="min-h-screen bg-[#ECF1F6] flex flex-col">
+            <div className="container mx-auto flex-grow p-4 bg-[#ECF1F6]">
+                <h1
+                    className="text-2xl font-bold mb-4 w-full h-[50px] bg-blue-200 flex items-center justify-center rounded-xl"
+                >
+                    Vending Machine
+                </h1>
+                {/* Responsive layout */}
+                <div className="flex flex-col lg:flex-row gap-8 h-full">
+                    {/* Product Tab on the left */}
+                    <div className="flex-1 h-full">
+                        <TabAdmin />
+                    </div>
+
+                    {/* Cart on the right (if enabled in the future) */}
+                    {/* <div className="flex-shrink-0 lg:w-[30%] lg:static fixed bottom-0 w-full bg-white p-4 shadow-lg lg:shadow-none lg:p-0 rounded-lg">
+                        
+                    </div> */}
+                </div>
+            </div>
+        </div>
     );
 }
